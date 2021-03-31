@@ -158,6 +158,7 @@ export default {
       console.log('shape');
       this.graph.on('selection:changed', ({ added, removed }) => {
         added.forEach((cell) => {
+          console.log(cell);
           if (cell.isNode()) {
             cell.attr('body', {
               fill: '#ffd591',
@@ -166,6 +167,9 @@ export default {
             cell.getPorts().forEach(({ id }) => {
               cell.setPortProp(id, 'attrs/circle', { stroke: '#ffa940' });
             });
+          }
+          if (cell.isEdge()) {
+            cell.attr('line', { stroke: '#ffa940' });
           }
         });
         removed.forEach((cell) => {
@@ -177,6 +181,9 @@ export default {
             cell.getPorts().forEach(({ id }) => {
               cell.setPortProp(id, 'attrs/circle', { stroke: '#31d0c6' });
             });
+          }
+          if (cell.isEdge()) {
+            cell.attr('line', { stroke: '#000' });
           }
         });
       });
