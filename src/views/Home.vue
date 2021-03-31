@@ -50,7 +50,6 @@ export default {
       graph: () => this.graph
     };
   },
-  created() {},
   mounted() {
     this.init();
   },
@@ -60,23 +59,14 @@ export default {
         container: document.getElementById('container'),
         width: 800,
         height: 600,
+        selecting: true, // 点选/框选，默认禁用。
         background: {
           color: '#fffbe6' // 设置画布背景颜色
         },
+
         grid: {
           size: 10, // 网格大小 10px
           visible: true // 渲染网格背景
-        },
-        onPortRendered(args) {
-          console.log(args);
-          const container = args.contentContainer;
-
-          if (container) {
-            const div = document.createElement('div');
-            div.style.background = 'red';
-            div.style.width = '10px';
-            div.style.height = '10px';
-          }
         },
         highlighting: {
           // 当链接桩可以被链接时，在链接桩外围渲染一个 2px 宽的红色矩形框
@@ -118,7 +108,6 @@ export default {
             });
           },
           validateConnection({ sourceView, targetView, sourceMagnet, targetMagnet }) {
-            console.log(sourceView);
             // 只能从输出链接桩创建连接
             if (!sourceMagnet || sourceMagnet.getAttribute('port-group') === 'in') {
               return false;
@@ -166,11 +155,30 @@ export default {
       });
     },
     shapeSelection() {
-      this.graph.on('selection:changed', ({ added, remove, selected }) => {
-        console.log(123123);
-        console.log(added);
-        console.log(remove);
-        console.log(selected);
+      console.log('shape');
+      this.graph.on('selection:changed', ({ added, removed }) => {
+        added.forEach((cell) => {
+          if (cell.isNode()) {
+            cell.attr('body', {
+              fill: '#ffd591',
+              stroke: '#ffa940'
+            });
+            cell.getPorts().forEach(({ id }) => {
+              cell.setPortProp(id, 'attrs/circle', { stroke: '#ffa940' });
+            });
+          }
+        });
+        removed.forEach((cell) => {
+          if (cell.isNode()) {
+            cell.attr('body', {
+              fill: '#fff',
+              stroke: '#31d0c6'
+            });
+            cell.getPorts().forEach(({ id }) => {
+              cell.setPortProp(id, 'attrs/circle', { stroke: '#31d0c6' });
+            });
+          }
+        });
       });
     }
   }
