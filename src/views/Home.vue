@@ -8,10 +8,11 @@
 <script>
 import { Graph } from '@antv/x6';
 import NodesBar from '@/component/NodesBar.vue';
-import customShape from '@/shape/index';
+import { registerNode } from '@/shape/index';
+import MyRect from '@/shape/rect';
 // @ is an alias to /src
 
-customShape(Graph);
+registerNode(Graph);
 // const { Dnd } = Addon;
 export default {
   components: { NodesBar },
@@ -99,6 +100,7 @@ export default {
   },
   mounted() {
     this.init();
+    // this.graph.addNode(new MyRect().position(100,100));
   },
   methods: {
     init() {
@@ -193,15 +195,14 @@ export default {
           }
         }
       });
-      // this.graph.fromJSON(this.data);
-      this.graph.fromJSON(this.test);
+      this.graph.fromJSON(this.data);
+      // this.graph.fromJSON(this.test);
       this.edgeConnected();
       this.eventHandler();
     },
     eventHandler() {
       this.graph.on('node:mouseenter', ({ node }) => {
         this.changePortsVisible(node, true);
-        // this.addClose(node);
       });
       this.graph.on('node:mouseleave', ({ node }) => {
         this.changePortsVisible(node, false);

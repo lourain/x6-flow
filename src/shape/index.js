@@ -1,5 +1,5 @@
-import  customNode from "./custom-node.js"
+import customNode from "./custom-node.js"
 
-export default (Graph) => {
+export const registerNode = (Graph) => {
   customNode(Graph);
 }
