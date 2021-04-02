@@ -24,6 +24,8 @@ export default {
             id: 'node1', // String，可选，节点的唯一标识
             x: 40, // Number，必选，节点位置的 x 值
             y: 40, // Number，必选，节点位置的 y 值
+            width: 100,
+            height: 40,
             shape: 'custom-node',
             label: 'hello' // String，节点标签
           },
@@ -31,6 +33,8 @@ export default {
             id: 'node2', // String，节点的唯一标识
             x: 160, // Number，必选，节点位置的 x 值
             y: 180, // Number，必选，节点位置的 y 值
+            width: 100,
+            height: 40,
             shape: 'custom-node',
             label: 'world' // String，节点标签
           }
@@ -42,6 +46,49 @@ export default {
           }
         ]
       },
+      test: [
+        {
+          position: {
+            x: 40,
+            y: 40
+          },
+          attrs: {
+            text: {
+              text: 'hello'
+            }
+          },
+          shape: 'custom-node',
+          id: 'node1',
+          zIndex: 1
+        },
+        {
+          position: {
+            x: 160,
+            y: 180
+          },
+          attrs: {
+            text: {
+              text: 'world'
+            }
+          },
+          shape: 'custom-node',
+          id: 'node2',
+          zIndex: 1
+        },
+        {
+          shape: 'edge',
+          id: 'baefb694-21aa-4e37-ba4b-b65d24cb302a',
+          source: {
+            cell: 'node1',
+            port: 'out1'
+          },
+          target: {
+            cell: 'node2',
+            port: 'in1'
+          },
+          zIndex: 1
+        }
+      ],
       dnd: null
     };
   },
@@ -63,7 +110,6 @@ export default {
         background: {
           color: '#fffbe6' // 设置画布背景颜色
         },
-
         grid: {
           size: 10, // 网格大小 10px
           visible: true // 渲染网格背景
@@ -79,6 +125,16 @@ export default {
                 stroke: 'skyblue'
               }
             }
+          },
+          magnetAdsorbed: {
+            name: 'stroke',
+            args: {
+              padding: 4,
+              attrs: {
+                'stroke-width': 8,
+                stroke: 'skyblue'
+              }
+            }
           }
         },
         connecting: {
@@ -89,7 +145,11 @@ export default {
           sourceAnchor: 'center',
           targetAnchor: 'center',
           connectionPoint: 'anchor',
-          connector: 'smooth',
+          // connector: 'smooth',
+          router: 'manhattan',
+          validateMagnet({ magnet }) {
+            return magnet.getAttribute('port-group') !== 'in';
+          },
           createEdge() {
             return this.createEdge({
               attrs: {
@@ -109,12 +169,15 @@ export default {
           },
           validateConnection({ sourceView, targetView, sourceMagnet, targetMagnet }) {
             // 只能从输出链接桩创建连接
-            if (!sourceMagnet || sourceMagnet.getAttribute('port-group') === 'in') {
-              return false;
-            }
+            // if (!sourceMagnet || sourceMagnet.getAttribute('port-group') === 'in') {
+            //   return false;
+            // }
 
-            // 只能连接到输入链接桩
-            if (!targetMagnet || targetMagnet.getAttribute('port-group') !== 'in') {
+            // // 只能连接到输入链接桩
+            // if (!targetMagnet || targetMagnet.getAttribute('port-group') !== 'in') {
+            //   return false;
+            // }
+            if (!sourceMagnet || !targetMagnet) {
               return false;
             }
 
@@ -122,7 +185,7 @@ export default {
             const portId = targetMagnet.getAttribute('port');
             const node = targetView.cell;
             const port = node.getPort(portId);
-            if (port && port.connected) {
+            if (!port) {
               return false;
             }
 
@@ -130,9 +193,22 @@ export default {
           }
         }
       });
-      this.graph.fromJSON(this.data);
+      // this.graph.fromJSON(this.data);
+      this.graph.fromJSON(this.test);
       this.edgeConnected();
-      this.shapeSelection();
+      this.eventHandler();
+    },
+    eventHandler() {
+      this.graph.on('node:mouseenter', ({ node }) => {
+        this.changePortsVisible(node, true);
+        // this.addClose(node);
+      });
+      this.graph.on('node:mouseleave', ({ node }) => {
+        this.changePortsVisible(node, false);
+      });
+      this.graph.on('selection:changed', ({ added, removed }) => {
+        this.shapeSelection(added, removed);
+      });
     },
     edgeConnected() {
       this.graph.on('edge:connected', (args) => {
@@ -154,38 +230,48 @@ export default {
         });
       });
     },
-    shapeSelection() {
+    shapeSelection(added, removed) {
       console.log('shape');
-      this.graph.on('selection:changed', ({ added, removed }) => {
-        added.forEach((cell) => {
-          console.log(cell);
-          if (cell.isNode()) {
-            cell.attr('body', {
-              fill: '#ffd591',
-              stroke: '#ffa940'
-            });
-            cell.getPorts().forEach(({ id }) => {
-              cell.setPortProp(id, 'attrs/circle', { stroke: '#ffa940' });
-            });
-          }
-          if (cell.isEdge()) {
-            cell.attr('line', { stroke: '#ffa940' });
-          }
-        });
-        removed.forEach((cell) => {
-          if (cell.isNode()) {
-            cell.attr('body', {
-              fill: '#fff',
-              stroke: '#31d0c6'
-            });
-            cell.getPorts().forEach(({ id }) => {
-              cell.setPortProp(id, 'attrs/circle', { stroke: '#31d0c6' });
-            });
-          }
-          if (cell.isEdge()) {
-            cell.attr('line', { stroke: '#000' });
-          }
-        });
+      added.forEach((cell) => {
+        if (cell.isNode()) {
+          cell.attr('body', {
+            fill: '#ffd591',
+            stroke: '#ffa940'
+          });
+          cell.getPorts().forEach(({ id }) => {
+            cell.setPortProp(id, 'attrs/circle', { stroke: '#ffa940' });
+          });
+        }
+        if (cell.isEdge()) {
+          cell.attr('line', { stroke: '#ffa940' });
+          cell.addTools({
+            name: 'button-remove',
+            args: {
+              distance: '50%'
+            }
+          });
+        }
+      });
+      removed.forEach((cell) => {
+        if (cell.isNode()) {
+          cell.attr('body', {
+            fill: '#fff',
+            stroke: '#31d0c6'
+          });
+          cell.getPorts().forEach(({ id }) => {
+            cell.setPortProp(id, 'attrs/circle', { stroke: '#31d0c6' });
+          });
+        }
+        if (cell.isEdge()) {
+          cell.attr('line', { stroke: '#000' });
+          cell.removeTools();
+        }
+      });
+    },
+    changePortsVisible(node, visible) {
+      const ports = document.querySelectorAll(`g[data-cell-id="${node.id}"] .x6-port-body`);
+      ports.forEach((port) => {
+        port.style.visibility = visible ? 'visible' : 'hidden';
       });
     }
   }
@@ -204,12 +290,18 @@ export default {
   }
 }
 
-.x6-node [magnet='true'] {
-  cursor: crosshair;
-  transition: none;
-}
+.x6-node {
+  [magnet='true'] {
+    cursor: crosshair;
+    transition: none;
 
-.x6-node [magnet='true'][port-group='in'] {
-  // cursor: move;
+    &[port-group='in'] {
+      cursor: move;
+    }
+  }
+
+  .x6-port-body {
+    visibility: hidden;
+  }
 }
 </style>

@@ -19,9 +19,8 @@ export default (Graph) => {
     ports: {
       items: [
         { group: 'in', id: 'in1' },
-        { group: 'in', id: 'in2' },
-        { group: 'out', id: 'out1' },
-        { group: 'out', id: 'out2' }
+        { group: 'right-out', id: 'out1' },
+        { group: 'bottom-out', id: 'out2' }
       ],
       groups: {
         in: {
@@ -37,8 +36,21 @@ export default (Graph) => {
             }
           }
         },
-        out: {
+        "bottom-out": {
           position: 'bottom',
+          zIndex: 1,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        },
+        "right-out": {
+          position: 'right',
           zIndex: 1,
           attrs: {
             circle: {
@@ -51,7 +63,13 @@ export default (Graph) => {
           }
         }
       }
-    }
+    },
+    tools: [
+      {
+        name: 'button-remove',  // 工具名称
+        args: { x: 0, y: 5}, // 工具对应的参数
+      }
+    ]
 
   },
     true,
