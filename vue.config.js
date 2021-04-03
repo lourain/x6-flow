@@ -43,15 +43,15 @@ module.exports = {
   },
   chainWebpack: config => {
     config.optimization.minimize(true);
-    config.optimization
-      .minimizer('js')
-      .use(TerserPlugin, [{
-        terserOptions: {
-          compress: {
-            pure_funcs: ['console.log']
-          }
-        }
-      }])
+    // config.optimization
+    //   .minimizer('js')
+    //   .use(TerserPlugin, [{
+    //     terserOptions: {
+    //       compress: {
+    //         pure_funcs: ['console.log']
+    //       }
+    //     }
+    //   }])
     config.optimization.splitChunks({ chunks: "all", maxSize: 500 * 1024 })
 
     config.module

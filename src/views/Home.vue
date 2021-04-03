@@ -8,8 +8,7 @@
 <script>
 import { Graph } from '@antv/x6';
 import NodesBar from '@/component/NodesBar.vue';
-import { registerNode } from '@/shape/index';
-import MyRect from '@/shape/rect';
+import registerNode from '@/shape/registerNode';
 // @ is an alias to /src
 
 registerNode(Graph);
@@ -27,7 +26,7 @@ export default {
             y: 40, // Number，必选，节点位置的 y 值
             width: 100,
             height: 40,
-            shape: 'custom-node',
+            shape: 'custom-rect',
             label: 'hello' // String，节点标签
           },
           {
@@ -36,7 +35,7 @@ export default {
             y: 180, // Number，必选，节点位置的 y 值
             width: 100,
             height: 40,
-            shape: 'custom-node',
+            shape: 'custom-rect',
             label: 'world' // String，节点标签
           }
         ],
@@ -58,7 +57,7 @@ export default {
               text: 'hello'
             }
           },
-          shape: 'custom-node',
+          shape: 'custom-rect',
           id: 'node1',
           zIndex: 1
         },
@@ -72,13 +71,13 @@ export default {
               text: 'world'
             }
           },
-          shape: 'custom-node',
+          shape: 'custom-rect',
           id: 'node2',
           zIndex: 1
         },
         {
           shape: 'edge',
-          id: 'baefb694-21aa-4e37-ba4b-b65d24cb302a',
+          id: '6a507852-8c75-476c-8426-6be3095210ac',
           source: {
             cell: 'node1',
             port: 'out1'
@@ -88,6 +87,15 @@ export default {
             port: 'in1'
           },
           zIndex: 1
+        },
+        {
+          position: {
+            x: 50,
+            y: 380
+          },
+          shape: 'custom-circle',
+          id: '01d7e44a-6f4c-4b41-959e-6fcd78b0fef6',
+          zIndex: 2
         }
       ],
       dnd: null
@@ -169,7 +177,7 @@ export default {
               }
             });
           },
-          validateConnection({ sourceView, targetView, sourceMagnet, targetMagnet }) {
+          validateConnection({ targetView, sourceMagnet, targetMagnet }) {
             // 只能从输出链接桩创建连接
             // if (!sourceMagnet || sourceMagnet.getAttribute('port-group') === 'in') {
             //   return false;
@@ -195,8 +203,8 @@ export default {
           }
         }
       });
-      this.graph.fromJSON(this.data);
-      // this.graph.fromJSON(this.test);
+      // this.graph.fromJSON(this.data);
+      this.graph.fromJSON(this.test);
       this.edgeConnected();
       this.eventHandler();
     },

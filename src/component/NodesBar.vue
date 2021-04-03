@@ -40,117 +40,12 @@ export default {
       let node;
       if (type === 'rect') {
         node = this.getGraph.createNode({
-          // shape: 'custom-node',
-          width: 100,
-          height: 40,
-          attrs: {
-            label: {
-              text: 'Rect',
-              fill: '#6a6c8a'
-            },
-            body: {
-              stroke: '#31d0c6',
-              strokeWidth: 2
-            }
-          },
-          ports: {
-            items: [
-              { group: 'in', id: 'in1' },
-              { group: 'right-out', id: 'out1' },
-              { group: 'bottom-out', id: 'out2' }
-            ],
-            groups: {
-              in: {
-                position: 'top',
-                zIndex: 1,
-                attrs: {
-                  circle: {
-                    r: 4,
-                    magnet: true,
-                    stroke: '#31d0c6',
-                    strokeWidth: 2,
-                    fill: '#fff'
-                  }
-                }
-              },
-              'bottom-out': {
-                position: 'bottom',
-                zIndex: 1,
-                attrs: {
-                  circle: {
-                    r: 4,
-                    magnet: true,
-                    stroke: '#31d0c6',
-                    strokeWidth: 2,
-                    fill: '#fff'
-                  }
-                }
-              },
-              'right-out': {
-                position: 'right',
-                zIndex: 1,
-                attrs: {
-                  circle: {
-                    r: 4,
-                    magnet: true,
-                    stroke: '#31d0c6',
-                    strokeWidth: 2,
-                    fill: '#fff'
-                  }
-                }
-              }
-            }
-          },
-          tools: [
-            {
-              name: 'button-remove', // 工具名称
-              args: { x: 0, y: 5 } // 工具对应的参数
-            }
-          ]
+          shape:'custom-rect'
         });
       }
       if (type === 'circle') {
         node = this.getGraph.createNode({
-          shape: 'circle',
-          width: 60,
-          height: 60,
-          attrs: {
-            label: {
-              text: 'Circle'
-            },
-            body: {
-              stroke: '#31d0c6',
-              strokeWidth: 2
-            }
-          },
-          ports: {
-            items: [
-              { group: 'in', id: 'in1' },
-              { group: 'in', id: 'in2' },
-              { group: 'in', id: 'in3' },
-              { group: 'in', id: 'in4' }
-            ],
-            groups: {
-              in: {
-                attrs: {
-                  circle: {
-                    r: 4,
-                    magnet: true,
-                    stroke: '#31d0c6',
-                    strokeWidth: 2,
-                    fill: '#fff'
-                  }
-                },
-                position: 'ellipseSpread'
-              }
-            }
-          },
-          tools: [
-            {
-              name: 'button-remove', // 工具名称
-              args: { x: 0, y: 5 } // 工具对应的参数
-            }
-          ]
+          shape: 'custom-circle'
         });
       }
       this.dnd.start(node, e);
