@@ -156,7 +156,7 @@ export default {
           allowLoop: false,
           highlight: true,
           sourceAnchor: {
-            name: 'center',
+            name: 'center'
           },
           targetAnchor: 'center',
           connectionPoint: 'anchor',
@@ -164,10 +164,10 @@ export default {
           router: 'manhattan',
           validateMagnet({ magnet }) {
             return magnet.getAttribute('port-group') !== 'in';
-            // return true
           },
           createEdge() {
             return this.createEdge({
+              zIndex: -1,
               attrs: {
                 line: {
                   strokeDasharray: '5 5',
@@ -216,10 +216,10 @@ export default {
     },
     eventHandler() {
       this.graph.on('node:mouseenter', ({ node }) => {
-        // this.changePortsVisible(node, true);
+        this.changePortsVisible(node, true);
       });
       this.graph.on('node:mouseleave', ({ node }) => {
-        // this.changePortsVisible(node, false);
+        this.changePortsVisible(node, false);
       });
       this.graph.on('selection:changed', ({ added, removed }) => {
         this.shapeSelection(added, removed);
@@ -234,13 +234,12 @@ export default {
 
         // 触发 port 重新渲染
         node.setPortProp(portId, 'connected', true);
-
+        edge.zIndex = -1;
         // 更新连线样式
         edge.attr({
           line: {
             strokeDasharray: '',
-            targetMarker: 'classic',
-            label: '23234'
+            targetMarker: 'classic'
           }
         });
         // edge.appendLabel({
@@ -323,7 +322,7 @@ export default {
   }
 
   .x6-port-body {
-    // visibility: hidden;
+    visibility: hidden;
   }
 }
 </style>
