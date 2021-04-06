@@ -6,6 +6,7 @@ MyCircle.config({
   shape: 'circle',
   width: 60,
   height: 60,
+  zIndex:100,
   attrs: {
     label: {
       text: 'Circle'

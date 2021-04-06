@@ -1,22 +1,12 @@
-
 import { Shape } from "@antv/x6"
-export default class MyRect extends Shape.Rect {
+import star from "../assets/star-svgrepo-com.svg"
+export default class SelfCheck extends Shape.Rect {
 
 }
-MyRect.config({
+SelfCheck.config({
   width: 100,
   height: 40,
   zIndex: 100,
-  attrs: {
-    label: {
-      text: 'Rect',
-      fill: '#6a6c8a'
-    },
-    body: {
-      stroke: '#31d0c6',
-      strokeWidth: 2
-    }
-  },
   ports: {
     items: [
       { group: 'in', id: 'in1' },
@@ -26,7 +16,7 @@ MyRect.config({
     groups: {
       in: {
         position: 'top',
-        zIndex: 1,
+        // zIndex: 1,
         attrs: {
           circle: {
             r: 4,
@@ -39,7 +29,7 @@ MyRect.config({
       },
       "bottom-out": {
         position: 'bottom',
-        zIndex: 1,
+        // zIndex: 1,
         attrs: {
           circle: {
             r: 4,
@@ -52,7 +42,7 @@ MyRect.config({
       },
       "right-out": {
         position: 'right',
-        zIndex: 20,
+        // zIndex: 1,
         attrs: {
           circle: {
             r: 4,
@@ -65,11 +55,32 @@ MyRect.config({
       }
     }
   },
+  markup: [
+    {
+      tagName: 'rect',
+      selector: 'body',
+    },
+    {
+      tagName: 'image',
+      selector: 'image',
+    },
+  ],
+  attrs: {
+    body: {
+      stroke: '#31d0c6',
+      strokeWidth: 2,
+    },
+    image: {
+      'xlink:href': star,
+      width: 20,
+      x: 90,
+      y:-12
+    }
+  },
   tools: [
     {
       name: 'button-remove',  // 工具名称
-      args: { x: 0, y: 5 }, // 工具对应的参数
+      args: { x: 0, y: 10 }, // 工具对应的参数
     }
   ]
 })
-

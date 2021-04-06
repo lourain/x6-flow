@@ -2,19 +2,21 @@
   <div class="layout">
     <NodesBar></NodesBar>
     <div id="container" class="cavs"></div>
+    <NodeInfo></NodeInfo>
   </div>
 </template>
 
 <script>
 import { Graph } from '@antv/x6';
 import NodesBar from '@/component/NodesBar.vue';
+import NodeInfo from '@/component/NodeInfo.vue';
 import registerNode from '@/shape/registerNode';
 // @ is an alias to /src
 
 registerNode(Graph);
 // const { Dnd } = Addon;
 export default {
-  components: { NodesBar },
+  components: { NodesBar, NodeInfo },
   data() {
     return {
       graph: null,
@@ -57,9 +59,10 @@ export default {
               text: 'hello'
             }
           },
-          shape: 'custom-rect',
+          // shape: 'custom-rect',
+          shape: 'self-check',
           id: 'node1',
-          zIndex: 1
+          zIndex: 100
         },
         {
           position: {
@@ -73,7 +76,7 @@ export default {
           },
           shape: 'custom-rect',
           id: 'node2',
-          zIndex: 1
+          zIndex: 100
         },
         {
           shape: 'edge',
@@ -95,7 +98,7 @@ export default {
           },
           shape: 'custom-circle',
           id: '01d7e44a-6f4c-4b41-959e-6fcd78b0fef6',
-          zIndex: 2
+          zIndex: 100
         }
       ],
       dnd: null
@@ -152,13 +155,16 @@ export default {
           allowBlank: false,
           allowLoop: false,
           highlight: true,
-          sourceAnchor: 'center',
+          sourceAnchor: {
+            name: 'center',
+          },
           targetAnchor: 'center',
           connectionPoint: 'anchor',
           // connector: 'smooth',
           router: 'manhattan',
           validateMagnet({ magnet }) {
             return magnet.getAttribute('port-group') !== 'in';
+            // return true
           },
           createEdge() {
             return this.createEdge({
@@ -210,10 +216,10 @@ export default {
     },
     eventHandler() {
       this.graph.on('node:mouseenter', ({ node }) => {
-        this.changePortsVisible(node, true);
+        // this.changePortsVisible(node, true);
       });
       this.graph.on('node:mouseleave', ({ node }) => {
-        this.changePortsVisible(node, false);
+        // this.changePortsVisible(node, false);
       });
       this.graph.on('selection:changed', ({ added, removed }) => {
         this.shapeSelection(added, removed);
@@ -226,7 +232,6 @@ export default {
         const elem = args.currentMagnet;
         const portId = elem.getAttribute('port');
 
-        console.log(edge);
         // 触发 port 重新渲染
         node.setPortProp(portId, 'connected', true);
 
@@ -234,9 +239,17 @@ export default {
         edge.attr({
           line: {
             strokeDasharray: '',
-            targetMarker: 'classic'
+            targetMarker: 'classic',
+            label: '23234'
           }
         });
+        // edge.appendLabel({
+        //   attrs: {
+        //     text: {
+        //       text: 'Hello Label'
+        //     }
+        //   }
+        // });
       });
     },
     shapeSelection(added, removed) {
@@ -310,7 +323,7 @@ export default {
   }
 
   .x6-port-body {
-    visibility: hidden;
+    // visibility: hidden;
   }
 }
 </style>
