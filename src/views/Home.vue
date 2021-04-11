@@ -2,7 +2,7 @@
   <div class="layout">
     <NodesBar></NodesBar>
     <div id="container" class="cavs"></div>
-    <NodeInfo></NodeInfo>
+    <NodeInfo @changeNodeName="changeNodeName"></NodeInfo>
   </div>
 </template>
 
@@ -101,7 +101,8 @@ export default {
           zIndex: 100
         }
       ],
-      dnd: null
+      dnd: null,
+      curNode:null,
     };
   },
   provide() {
@@ -255,6 +256,7 @@ export default {
       console.log('shape');
       added.forEach((cell) => {
         if (cell.isNode()) {
+          this.curNode = cell
           cell.attr('body', {
             fill: '#ffd591',
             stroke: '#ffa940'
@@ -294,7 +296,13 @@ export default {
       ports.forEach((port) => {
         port.style.visibility = visible ? 'visible' : 'hidden';
       });
-    }
+    },
+    changeNodeName(name) {
+    // this.curNode.setProp('nodeName', name);
+    this.curNode.setAttrs({ label: { text: name } });
+    // this.curNode.nodeName = name;
+  },
+
   }
 };
 </script>
@@ -326,3 +334,4 @@ export default {
   }
 }
 </style>
+

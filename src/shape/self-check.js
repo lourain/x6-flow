@@ -1,7 +1,7 @@
 import { Shape } from "@antv/x6"
-import star from "../assets/star-svgrepo-com.svg"
+import star from "@/assets/star-svgrepo-com.svg"
 export default class SelfCheck extends Shape.Rect {
-
+  nodeName = '';
 }
 SelfCheck.config({
   width: 100,
@@ -9,9 +9,9 @@ SelfCheck.config({
   zIndex: 100,
   ports: {
     items: [
-      { group: 'in', id: 'in1' },
-      { group: 'right-out', id: 'out1' },
-      { group: 'bottom-out', id: 'out2' }
+      { group: 'in', id: 'p_top' },
+      { group: 'right-out', id: 'p_right' },
+      { group: 'bottom-out', id: 'p_bottom' }
     ],
     groups: {
       in: {
@@ -61,6 +61,10 @@ SelfCheck.config({
       selector: 'body',
     },
     {
+      tagName: 'text',
+      selector: 'label'
+    },
+    {
       tagName: 'image',
       selector: 'image',
     },
@@ -70,11 +74,14 @@ SelfCheck.config({
       stroke: '#31d0c6',
       strokeWidth: 2,
     },
+    label: {
+      text: ''
+    },
     image: {
       'xlink:href': star,
       width: 20,
       x: 90,
-      y:-12
+      y: -12
     }
   },
   tools: [

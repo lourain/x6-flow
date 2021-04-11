@@ -19,9 +19,9 @@ MyRect.config({
   },
   ports: {
     items: [
-      { group: 'in', id: 'in1' },
-      { group: 'right-out', id: 'out1' },
-      { group: 'bottom-out', id: 'out2' }
+      { group: 'in', id: 'p_top' },
+      { group: 'right-out', id: 'p_right' },
+      { group: 'bottom-out', id: 'p_bottom' }
     ],
     groups: {
       in: {

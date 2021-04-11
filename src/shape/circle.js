@@ -9,7 +9,7 @@ MyCircle.config({
   zIndex:100,
   attrs: {
     label: {
-      text: 'Circle'
+      text: ''
     },
     body: {
       stroke: '#31d0c6',
@@ -18,13 +18,13 @@ MyCircle.config({
   },
   ports: {
     items: [
-      { group: 'in', id: 'in1' },
-      { group: 'in', id: 'in2' },
-      { group: 'in', id: 'in3' },
-      { group: 'in', id: 'in4' }
+      { group: 'port_g', id: 'p_top' },
+      { group: 'port_g', id: 'p_right' },
+      { group: 'port_g', id: 'p_bottom' },
+      { group: 'port_g', id: 'p_left' }
     ],
     groups: {
-      in: {
+      port_g: {
         attrs: {
           circle: {
             r: 4,
