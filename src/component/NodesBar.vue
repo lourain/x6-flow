@@ -10,70 +10,51 @@
     <!--  -->
   </div>
 </template>
-<script>
-import { Addon } from '@antv/x6';
+<script setup>
+import { inject, ref, watch } from "vue";
+import { Addon } from "@antv/x6";
 const { Dnd } = Addon;
 
-export default {
-  inject: ['graph'],
-  data() {
-    return {
-      dnd: null,
-      container: null
-    };
-  },
-  mounted() {
-    this.container = document.getElementById('container');
-  },
-  computed: {
-    getGraph() {
-      return this.graph();
-    }
-  },
-  watch: {
-    getGraph(graph) {
-      if (graph) {
-        this.initDnd();
-      }
-    }
-  },
-  methods: {
-    startDrag(e) {
-      const target = e.currentTarget;
-      const type = target.getAttribute('data-type');
-      let node;
-      if (type === 'rect') {
-        node = this.getGraph.createNode({
-          shape: 'custom-rect'
-        });
-      }
-      if (type === 'circle') {
-        node = this.getGraph.createNode({
-          shape: 'custom-circle'
-        });
-      }
-      if (type === 'self-check') {
-        node = this.getGraph.createNode({
-          shape: 'self-check'
-        });
-      }
-      this.dnd.start(node, e);
-    },
-    initDnd() {
-      this.dnd = new Dnd({
-        target: this.getGraph,
-        validateNode() {
-          return true;
-        }
-      });
-    },
-
-    exportData() {
-      console.log(JSON.stringify(this.getGraph.toJSON({ diff: true }), null, 2));
-      // document.write(this.getGraph.toJSON().cells)
-    }
+const graph = inject("graph");
+const dnd = ref({});
+const startDrag = e => {
+  const target = e.currentTarget;
+  const type = target.getAttribute("data-type");
+  let node;
+  if (type === "rect") {
+    node = graph.value.createNode({
+      shape: "custom-rect",
+    });
   }
+  if (type === "circle") {
+    node = graph.value.createNode({
+      shape: "custom-circle",
+    });
+  }
+  if (type === "self-check") {
+    node = graph.value.createNode({
+      shape: "self-check",
+    });
+  }
+  dnd.value.start(node, e);
 };
+const initDnd = () => {
+  dnd.value = new Dnd({
+    target: graph.value,
+    validateNode() {
+      return true;
+    },
+  });
+};
+
+const exportData = () => {
+  console.log(JSON.stringify(graph.value.toJSON({ diff: true }), null, 2));
+  // document.write(this.getGraph.toJSON().cells)
+};
+watch(graph, val => {
+  console.log(val);
+  initDnd();
+});
 </script>
 <style lang="less">
 .nodes-bar {

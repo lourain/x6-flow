@@ -1,5 +1,5 @@
 import { Shape } from "@antv/x6"
-import star from "@/assets/star-svgrepo-com.svg"
+import star from "../assets/star-svgrepo-com.svg"
 export default class SelfCheck extends Shape.Rect {
   nodeName = '';
 }
