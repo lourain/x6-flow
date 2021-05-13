@@ -7,7 +7,6 @@
       <span>自核节点</span>
     </div>
     <div @click="exportData">export</div>
-    <!--  -->
   </div>
 </template>
 <script setup>
