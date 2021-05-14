@@ -1,27 +1,55 @@
 
 import { Shape } from "@antv/x6"
-export default class MyRect extends Shape.Rect {
+import labeIcon from "../assets/label.png"
+export default class GeneralNode extends Shape.Rect {
 
 }
-MyRect.config({
+GeneralNode.config({
   width: 100,
   height: 40,
   zIndex: 100,
+  markup: [
+    {
+      tagName: 'rect',
+      selector: 'body',
+    },
+    {
+      tagName: 'text',
+      selector: 'label',
+    },
+    {
+      tagName: 'image',
+      selector: 'icon'
+    }
+  ],
   attrs: {
     label: {
-      text: 'Rect',
-      fill: '#6a6c8a'
+      text: '普通节点',
+      fill: "#FF7A0B",
+      strokeWidth: 0.4,
+      fontSize: 12,
     },
     body: {
-      stroke: '#31d0c6',
-      strokeWidth: 2
+      stroke: "#FF7C0E",
+      strokeWidth: 2,
+      fill: "#FFDFC4",
+      rx: 5,
+      ry: 5
+    },
+    icon: {
+      'xlink:href': labeIcon,
+      width: 20,
+      height: 20,
+      refX: 1,
+      refY: 1
     }
   },
   ports: {
     items: [
       { group: 'in', id: 'p_top' },
       { group: 'right-out', id: 'p_right' },
-      { group: 'bottom-out', id: 'p_bottom' }
+      { group: 'bottom-out', id: 'p_bottom' },
+      { group: 'left-out', id: 'p_left' }
     ],
     groups: {
       in: {
@@ -62,14 +90,21 @@ MyRect.config({
             fill: '#fff'
           }
         }
+      },
+      "left-out": {
+        position: 'left',
+        zIndex: 20,
+        attrs: {
+          circle: {
+            r: 4,
+            magnet: true,
+            stroke: '#31d0c6',
+            strokeWidth: 2,
+            fill: '#fff'
+          }
+        }
       }
     }
   },
-  tools: [
-    {
-      name: 'button-remove',  // 工具名称
-      args: { x: 0, y: 5 }, // 工具对应的参数
-    }
-  ]
 })
 

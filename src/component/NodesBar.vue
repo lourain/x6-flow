@@ -6,33 +6,33 @@
       <img src="../assets/star-svgrepo-com.svg" alt />
       <span>自核节点</span>
     </div>
-    <div @click="exportData">export</div>
+    <button @click="exportData">export</button>
   </div>
 </template>
 <script setup>
-import { inject, ref, watch } from "vue";
-import { Addon } from "@antv/x6";
+import { inject, ref, watch } from 'vue';
+import { Addon } from '@antv/x6';
 const { Dnd } = Addon;
 
-const graph = inject("graph");
+const graph = inject('graph');
 const dnd = ref({});
-const startDrag = e => {
+const startDrag = (e) => {
   const target = e.currentTarget;
-  const type = target.getAttribute("data-type");
+  const type = target.getAttribute('data-type');
   let node;
-  if (type === "rect") {
+  if (type === 'rect') {
     node = graph.value.createNode({
-      shape: "custom-rect",
+      shape: 'general-node'
     });
   }
-  if (type === "circle") {
+  if (type === 'circle') {
     node = graph.value.createNode({
-      shape: "custom-circle",
+      shape: 'custom-circle'
     });
   }
-  if (type === "self-check") {
+  if (type === 'self-check') {
     node = graph.value.createNode({
-      shape: "self-check",
+      shape: 'self-check'
     });
   }
   dnd.value.start(node, e);
@@ -42,7 +42,7 @@ const initDnd = () => {
     target: graph.value,
     validateNode() {
       return true;
-    },
+    }
   });
 };
 
@@ -50,7 +50,7 @@ const exportData = () => {
   console.log(JSON.stringify(graph.value.toJSON({ diff: true }), null, 2));
   // document.write(this.getGraph.toJSON().cells)
 };
-watch(graph, val => {
+watch(graph, (val) => {
   console.log(val);
   initDnd();
 });
