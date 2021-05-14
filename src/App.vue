@@ -12,63 +12,533 @@ import { Graph } from '@antv/x6';
 import NodesBar from './component/NodesBar.vue';
 import NodeInfo from './component/NodeInfo.vue';
 import registerNode from './shape/registerNode';
-// @ is an alias to /src
+import cellEvents from "./composables/cellEvents"
 
 registerNode(Graph);
-// const { Dnd } = Addon;
 const graph = ref({});
 const curNode = ref({});
 const test = reactive([
   {
-    position: {
-      x: 40,
-      y: 40
-    },
+    shape: 'edge',
     attrs: {
-      text: {
-        text: 'hello'
+      line: {
+        stroke: '#808080',
+        strokeWidth: 1,
+        strokeDasharray: ''
       }
     },
-    // shape: 'general-node',
-    shape: 'self-check',
-    id: 'node1',
-    zIndex: 100
-  },
-  {
-    position: {
-      x: 160,
-      y: 180
+    id: 'bf8d1c70-857d-41bb-8271-280a3a104824',
+    zIndex: -1,
+    source: {
+      cell: '32f1b845-9232-4051-b742-8bbf1c7d23a1',
+      port: 'p_bottom'
     },
-    attrs: {
-      text: {
-        text: 'world'
-      }
-    },
-    shape: 'general-node',
-    id: 'node2',
-    zIndex: 100
+    target: {
+      cell: 'a4288f97-97c1-4bcd-8c28-fcd9a94f056b',
+      port: 'p_top'
+    }
   },
   {
     shape: 'edge',
-    id: '6a507852-8c75-476c-8426-6be3095210ac',
+    attrs: {
+      line: {
+        stroke: '#808080',
+        strokeWidth: 1,
+        strokeDasharray: ''
+      }
+    },
+    id: 'f4ce3de8-c388-41ee-9833-ef6e1f1dba2a',
+    zIndex: -1,
     source: {
-      cell: 'node1',
-      port: 'out1'
+      cell: 'a4288f97-97c1-4bcd-8c28-fcd9a94f056b',
+      port: 'p_bottom'
     },
     target: {
-      cell: 'node2',
-      port: 'in1'
+      cell: '4291dc4c-c346-4727-895b-e472616e94b7',
+      port: 'p_top'
+    }
+  },
+  {
+    shape: 'edge',
+    attrs: {
+      line: {
+        stroke: '#808080',
+        strokeWidth: 1,
+        strokeDasharray: ''
+      }
     },
+    id: 'ce3efe66-30bd-4682-b00f-980fd5598255',
+    zIndex: -1,
+    source: {
+      cell: '4291dc4c-c346-4727-895b-e472616e94b7',
+      port: 'p_bottom'
+    },
+    target: {
+      cell: '2a156147-d9df-4311-b81a-dffd98928800',
+      port: 'p_top'
+    }
+  },
+  {
+    shape: 'edge',
+    attrs: {
+      line: {
+        stroke: '#808080',
+        strokeWidth: 1,
+        strokeDasharray: ''
+      }
+    },
+    id: '7391f9bd-bbe8-463f-bcb9-9fe529c554d9',
+    zIndex: -1,
+    source: {
+      cell: '2a156147-d9df-4311-b81a-dffd98928800',
+      port: 'p_bottom'
+    },
+    target: {
+      cell: 'd4a68d9e-2e53-41a3-9983-81a47052c60c',
+      port: 'p_top'
+    }
+  },
+  {
+    shape: 'edge',
+    attrs: {
+      line: {
+        stroke: '#808080',
+        strokeWidth: 1,
+        strokeDasharray: ''
+      }
+    },
+    id: 'ec9132e0-8711-4f66-992b-6368e3af9347',
+    zIndex: -1,
+    source: {
+      cell: '2a156147-d9df-4311-b81a-dffd98928800',
+      port: 'p_right'
+    },
+    target: {
+      cell: 'fe0b0e6c-10ea-4c44-b254-e305eca02460',
+      port: 'p_top'
+    }
+  },
+  {
+    shape: 'edge',
+    attrs: {
+      line: {
+        stroke: '#808080',
+        strokeWidth: 1,
+        strokeDasharray: ''
+      }
+    },
+    id: '527f2093-ea6d-49ed-9246-3ee69e3649ab',
+    zIndex: -1,
+    source: {
+      cell: 'fe0b0e6c-10ea-4c44-b254-e305eca02460',
+      port: 'p_bottom'
+    },
+    target: {
+      cell: 'd4a68d9e-2e53-41a3-9983-81a47052c60c',
+      port: 'p_right'
+    }
+  },
+  {
+    position: {
+      x: 210,
+      y: 50
+    },
+    shape: 'start-node',
+    id: '32f1b845-9232-4051-b742-8bbf1c7d23a1',
     zIndex: 1
   },
   {
     position: {
-      x: 50,
-      y: 380
+      x: 210,
+      y: 500
     },
-    shape: 'custom-circle',
-    id: '01d7e44a-6f4c-4b41-959e-6fcd78b0fef6',
-    zIndex: 100
+    shape: 'end-node',
+    ports: {
+      items: [
+        {
+          group: 'port_g',
+          id: 'p_top',
+          connected: true
+        },
+        {
+          group: 'port_g',
+          id: 'p_right',
+          connected: true
+        },
+        {
+          group: 'port_g',
+          id: 'p_bottom'
+        },
+        {
+          group: 'port_g',
+          id: 'p_left'
+        }
+      ],
+      groups: {
+        port_g: {
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          },
+          position: 'ellipseSpread'
+        }
+      }
+    },
+    id: 'd4a68d9e-2e53-41a3-9983-81a47052c60c',
+    zIndex: 2
+  },
+  {
+    position: {
+      x: 180,
+      y: 140
+    },
+    shape: 'general-node',
+    ports: {
+      items: [
+        {
+          group: 'in',
+          id: 'p_top',
+          connected: true
+        },
+        {
+          group: 'right-out',
+          id: 'p_right'
+        },
+        {
+          group: 'bottom-out',
+          id: 'p_bottom'
+        },
+        {
+          group: 'left-out',
+          id: 'p_left'
+        }
+      ],
+      groups: {
+        in: {
+          position: 'top',
+          zIndex: 1,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        },
+        'bottom-out': {
+          position: 'bottom',
+          zIndex: 1,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        },
+        'right-out': {
+          position: 'right',
+          zIndex: 20,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        },
+        'left-out': {
+          position: 'left',
+          zIndex: 20,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        }
+      }
+    },
+    id: 'a4288f97-97c1-4bcd-8c28-fcd9a94f056b',
+    zIndex: 3
+  },
+  {
+    position: {
+      x: 180,
+      y: 240
+    },
+    shape: 'special-node',
+    ports: {
+      items: [
+        {
+          group: 'in',
+          id: 'p_top',
+          connected: true
+        },
+        {
+          group: 'right-out',
+          id: 'p_right'
+        },
+        {
+          group: 'bottom-out',
+          id: 'p_bottom'
+        },
+        {
+          group: 'left-out',
+          id: 'p_left'
+        }
+      ],
+      groups: {
+        in: {
+          position: 'top',
+          zIndex: 20,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        },
+        'bottom-out': {
+          position: 'bottom',
+          zIndex: 20,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        },
+        'right-out': {
+          position: 'right',
+          zIndex: 20,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        },
+        'left-out': {
+          position: 'left',
+          zIndex: 20,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        }
+      }
+    },
+    id: '4291dc4c-c346-4727-895b-e472616e94b7',
+    zIndex: 4
+  },
+  {
+    position: {
+      x: 210,
+      y: 340
+    },
+    shape: 'shunt-node',
+    ports: {
+      items: [
+        {
+          group: 'in',
+          id: 'p_top',
+          args: {
+            dx: -20
+          },
+          connected: true
+        },
+        {
+          group: 'right-out',
+          id: 'p_right',
+          args: {
+            dy: -20
+          }
+        },
+        {
+          group: 'bottom-out',
+          id: 'p_bottom',
+          args: {
+            dx: 20
+          }
+        },
+        {
+          group: 'left-out',
+          id: 'p_left',
+          args: {
+            dy: 20
+          }
+        }
+      ],
+      groups: {
+        in: {
+          position: 'top',
+          zIndex: 1,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        },
+        'bottom-out': {
+          position: 'bottom',
+          zIndex: 1,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        },
+        'right-out': {
+          position: 'right',
+          zIndex: 20,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        },
+        'left-out': {
+          position: 'left',
+          zIndex: 20,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        }
+      }
+    },
+    id: '2a156147-d9df-4311-b81a-dffd98928800',
+    zIndex: 5
+  },
+  {
+    position: {
+      x: 340,
+      y: 410
+    },
+    shape: 'general-node',
+    ports: {
+      items: [
+        {
+          group: 'in',
+          id: 'p_top',
+          connected: true
+        },
+        {
+          group: 'right-out',
+          id: 'p_right'
+        },
+        {
+          group: 'bottom-out',
+          id: 'p_bottom'
+        },
+        {
+          group: 'left-out',
+          id: 'p_left'
+        }
+      ],
+      groups: {
+        in: {
+          position: 'top',
+          zIndex: 1,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        },
+        'bottom-out': {
+          position: 'bottom',
+          zIndex: 1,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        },
+        'right-out': {
+          position: 'right',
+          zIndex: 20,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        },
+        'left-out': {
+          position: 'left',
+          zIndex: 20,
+          attrs: {
+            circle: {
+              r: 4,
+              magnet: true,
+              stroke: '#31d0c6',
+              strokeWidth: 2,
+              fill: '#fff'
+            }
+          }
+        }
+      }
+    },
+    id: 'fe0b0e6c-10ea-4c44-b254-e305eca02460',
+    zIndex: 6
   }
 ]);
 const init = () => {
@@ -77,9 +547,7 @@ const init = () => {
     width: 800,
     height: 600,
     selecting: true, // 点选/框选，默认禁用。
-    background: {
-      color: '#fffbe6' // 设置画布背景颜色
-    },
+    snapline: true,
     grid: {
       size: 10, // 网格大小 10px
       visible: true // 渲染网格背景
@@ -166,114 +634,21 @@ const init = () => {
       }
     }
   });
-  // this.graph.fromJSON(this.data);
   graph.value.fromJSON(test);
-  edgeConnected();
-  eventHandler();
+  cellEvents(graph);
 };
-const eventHandler = () => {
-  graph.value.on('node:mouseenter', ({ node }) => {
-    changePortsVisible(node, true);
-  });
-  graph.value.on('node:mouseleave', ({ node }) => {
-    changePortsVisible(node, false);
-  });
-  // graph.value.on("selection:changed", ({ added, removed }) => {
-  //   shapeSelection(added, removed);
-  // });
-  graph.value.on('node:selected', ({ cell, node }) => {
-    console.log(node);
-  });
-  graph.value.on('node:unselected', ({ cell, node }) => {
-    console.log(node);
-  });
-};
-const edgeConnected = () => {
-  graph.value.on('edge:connected', (args) => {
-    const edge = args.edge;
-    const node = args.currentCell;
-    const elem = args.currentMagnet;
-    const portId = elem.getAttribute('port');
 
-    // 触发 port 重新渲染
-    node.setPortProp(portId, 'connected', true);
-    edge.zIndex = -1;
-    // 更新连线样式
-    edge.attr({
-      line: {
-        strokeDasharray: '',
-        targetMarker: 'classic'
-      }
-    });
-    // edge.appendLabel({
-    //   attrs: {
-    //     text: {
-    //       text: 'Hello Label'
-    //     }
-    //   }
-    // });
-  });
-};
-const shapeSelection = (added, removed) => {
-  console.log('shape');
-  added.forEach((cell) => {
-    if (cell.isNode()) {
-      curNode.value = cell;
-      cell.attr('body', {
-        fill: '#ffd591',
-        stroke: '#ffa940'
-      });
-      cell.getPorts().forEach(({ id }) => {
-        cell.setPortProp(id, 'attrs/circle', { stroke: '#ffa940' });
-      });
-    }
-    if (cell.isEdge()) {
-      cell.attr('line', { stroke: '#ffa940' });
-      cell.addTools({
-        name: 'button-remove',
-        args: {
-          distance: '50%'
-        }
-      });
-    }
-  });
-  removed.forEach((cell) => {
-    if (cell.isNode()) {
-      cell.attr('body', {
-        fill: '#fff',
-        stroke: '#31d0c6'
-      });
-      cell.getPorts().forEach(({ id }) => {
-        cell.setPortProp(id, 'attrs/circle', { stroke: '#31d0c6' });
-      });
-    }
-    if (cell.isEdge()) {
-      cell.attr('line', { stroke: '#000' });
-      cell.removeTools();
-    }
-  });
-};
-const changePortsVisible = (node, visible) => {
-  const ports = document.querySelectorAll(`g[data-cell-id="${node.id}"] .x6-port-body`);
-  ports.forEach((port) => {
-    port.style.visibility = visible ? 'visible' : 'hidden';
-  });
-  visible
-    ? node.addTools({
-        name: 'button-remove', // 工具名称
-        args: { x: 0, y: 0, offset: { x: 5, y: 5 } } // 工具对应的参数
-      })
-    : node.removeTools('button-remove');
-};
 const changeNodeName = (name) => {
-  // this.curNode.setProp('nodeName', name);
   curNode.value.setAttrs({ label: { text: name } });
-  // this.curNode.nodeName = name;
 };
 onMounted(init);
 provide('graph', graph);
 </script>
 <style lang="less">
+* {
+  margin: 0;
+  padding: 0;
+}
 .layout {
   display: flex;
   width: 100%;
@@ -298,6 +673,37 @@ provide('graph', graph);
 
   .x6-port-body {
     visibility: hidden;
+  }
+}
+
+.general-node-selected {
+  rect {
+    fill: #ffdfc4;
+    stroke-width: 2;
+  }
+}
+.special-node-selected {
+  rect {
+    fill: #f8c5c8;
+    stroke-width: 2;
+  }
+}
+.shunt-node-selected {
+  rect {
+    fill: #ccd0f6;
+    stroke-width: 2;
+  }
+}
+.start-node-selected {
+  circle {
+    fill: #d4fff0;
+    stroke-width: 2;
+  }
+}
+.end-node-selected {
+  circle {
+    fill: #ccd0f6;
+    stroke-width: 2;
   }
 }
 </style>

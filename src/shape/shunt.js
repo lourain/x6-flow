@@ -1,21 +1,17 @@
-
 import { Shape } from "@antv/x6"
-import labeIcon from "../assets/label.png"
-export default class GeneralNode extends Shape.Rect {
+import shuntIcon from "../assets/shunt.png"
+export default class ShuntNode extends Shape.Rect {
 
 }
-GeneralNode.config({
-  width: 100,
+ShuntNode.config({
+  width: 40,
   height: 40,
   zIndex: 100,
+  angle: 45,
   markup: [
     {
       tagName: 'rect',
-      selector: 'body',
-    },
-    {
-      tagName: 'text',
-      selector: 'label',
+      selector: 'body'
     },
     {
       tagName: 'image',
@@ -23,37 +19,34 @@ GeneralNode.config({
     }
   ],
   attrs: {
-    label: {
-      text: '普通节点',
-      fill: "#FF7A0B",
-      strokeWidth: 0.4,
-      fontSize: 12,
-    },
     body: {
-      stroke: "#FF7C0E",
+      stroke: '#3e8bf8',
       strokeWidth: 1,
-      // fill: "#FFDFC4",
+      // fill: '#CCD0F6',
       rx: 5,
       ry: 5
     },
     icon: {
-      'xlink:href': labeIcon,
+      'xlink:href': shuntIcon,
+      transform: "rotate(-45,20,20)",
+
       width: 20,
       height: 20,
-      refX: 1,
-      refY: 1
+      x: 10,
+      y: 9
     }
   },
   ports: {
     items: [
-      { group: 'in', id: 'p_top' },
-      { group: 'right-out', id: 'p_right' },
-      { group: 'bottom-out', id: 'p_bottom' },
-      { group: 'left-out', id: 'p_left' }
+      { group: 'in', id: 'p_top', args: { dx: -20 } },
+      { group: 'right-out', id: 'p_right',args: { dy: -20 } },
+      { group: 'bottom-out', id: 'p_bottom',args: { dx: 20 } },
+      { group: 'left-out', id: 'p_left' ,args: { dy: 20 } }
     ],
     groups: {
       in: {
         position: 'top',
+
         zIndex: 1,
         attrs: {
           circle: {
@@ -107,4 +100,3 @@ GeneralNode.config({
     }
   },
 })
-

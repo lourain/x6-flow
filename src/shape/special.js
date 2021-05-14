@@ -85,15 +85,15 @@ SelfCheck.config({
   ],
   attrs: {
     label: {
-      text: '自定义节点',
+      text: '特殊节点',
       fill: "#F33B3D",
       strokeWidth: 0.4,
       fontSize: 12
     },
     body: {
       stroke: "#F33B3D",
-      strokeWidth: 2,
-      fill: "#FFD0CD",
+      strokeWidth: 1,
+      // fill: "#F8C5C8",
       rx: 5,
       ry: 5
     },

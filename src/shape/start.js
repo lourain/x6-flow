@@ -1,19 +1,34 @@
 import { Shape } from "@antv/x6"
-export default class MyCircle extends Shape.Circle {
+import startIcon from "../assets/start.png"
+export default class StratNode extends Shape.Circle {
 
 }
-MyCircle.config({
-  shape: 'circle',
-  width: 60,
-  height: 60,
-  zIndex:100,
-  attrs: {
-    label: {
-      text: ''
+StratNode.config({
+  width: 40,
+  height: 40,
+  zIndex: 100,
+  markup: [
+    {
+      tagName: 'circle',
+      selector: 'body'
     },
+    {
+      tagName: 'image',
+      selector: 'icon'
+    }
+  ],
+  attrs: {
     body: {
-      stroke: '#31d0c6',
-      strokeWidth: 2
+      stroke: '#06CC76',
+      strokeWidth: 1,
+      // fill: '#d4fff0'
+    },
+    icon: {
+      'xlink:href': startIcon,
+      width: 20,
+      height: 20,
+      x: 10,
+      y: 10
     }
   },
   ports: {
@@ -38,10 +53,4 @@ MyCircle.config({
       }
     }
   },
-  tools: [
-    {
-      name: 'button-remove', // 工具名称
-      args: { x: 0, y: 5 } // 工具对应的参数
-    }
-  ]
 })
