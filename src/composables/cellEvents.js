@@ -18,7 +18,7 @@ export default (graph) => {
     let removeBtnCfg;
     if (cell.isEdge()) {
       cell.attr('line', { stroke: 'skyblue', strokeWidth: 3 });
-      removeBtnCfg = { x: 0, y: 0, offset: { distance: '30%' } };
+      removeBtnCfg = { distance: '30%' };
     }
 
     if (cell.isNode()) {
