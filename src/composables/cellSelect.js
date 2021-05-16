@@ -1,10 +1,14 @@
 import { getCurrentInstance } from 'vue';
 
 
-export default (graph) => {
+export default (graph,curCell) => {
   const instance = getCurrentInstance()
+  console.log(instance);
   graph.value.on('cell:selected', ({ cell }) => {
-    instance.ctx.curNode = cell
+    // instance.ctx.curCell = cell
+    // instance.ctx.node = cell
+    // console.log(instance.ctx.node);
+    curCell.value = cell;
     let removeBtnCfg;
     if (cell.isEdge()) {
       cell.attr('line', { stroke: 'skyblue', strokeWidth: 3 });
@@ -23,7 +27,7 @@ export default (graph) => {
   });
 
   graph.value.on('cell:unselected', ({ cell }) => {
-    instance.ctx.curNode = null;
+    instance.ctx.curCell = null;
     if (cell.isEdge()) {
       cell.attr('line', { stroke: '#808080', strokeWidth: 1 });
     } else {

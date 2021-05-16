@@ -2,7 +2,7 @@
   <div class="layout">
     <NodesBar></NodesBar>
     <div id="container" class="cavs"></div>
-    <CellInfo @changeNodeName="changeNodeName"></CellInfo>
+    <CellInfo @changeNodeName="changeNodeName" :cur-cell="curCell"></CellInfo>
   </div>
 </template>
 
@@ -18,6 +18,8 @@ import connectEdge from './composables/connectEdge';
 
 registerNode(Graph);
 const graph = ref({});
+const curCell = ref({})
+// console.log(node);
 const { ctx } = getCurrentInstance();
 const test = reactive([
   {
@@ -639,14 +641,13 @@ const init = () => {
   graph.value.fromJSON(test);
   // cellEvents(graph);
   cellHover(graph);
-  cellSelect(graph);
+  cellSelect(graph,curCell);
   connectEdge(graph);
 };
 
 const changeNodeName = (name) => {
-  const { curNode } = ctx;
-  console.log(curNode);
-  curNode.setAttrs({ label: { text: name } });
+  curCell.value.isNode() && curCell.value.setAttrs({ label: { text: name } });
+  curCell.value.isEdge() && curCell.value.setLabels(name);
 };
 onMounted(init);
 provide('graph', graph);

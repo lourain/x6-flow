@@ -15,12 +15,12 @@ export default (graph)=> {
         targetMarker: 'classic'
       }
     });
-    // edge.appendLabel({
-    //   attrs: {
-    //     text: {
-    //       text: 'Hello Label'
-    //     }
-    //   }
-    // });
+    edge.appendLabel({
+      attrs: {
+        text: {
+          text: 'Hello Label'
+        }
+      }
+    });
   });
 }
