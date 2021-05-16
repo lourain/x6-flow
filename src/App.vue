@@ -2,21 +2,23 @@
   <div class="layout">
     <NodesBar></NodesBar>
     <div id="container" class="cavs"></div>
-    <NodeInfo @changeNodeName="changeNodeName"></NodeInfo>
+    <CellInfo @changeNodeName="changeNodeName"></CellInfo>
   </div>
 </template>
 
 <script setup>
-import { provide, ref, reactive, onMounted } from 'vue';
+import { provide, ref, reactive, onMounted, getCurrentInstance } from 'vue';
 import { Graph } from '@antv/x6';
 import NodesBar from './component/NodesBar.vue';
-import NodeInfo from './component/NodeInfo.vue';
+import CellInfo from './component/CellInfo.vue';
 import registerNode from './shape/registerNode';
-import cellEvents from "./composables/cellEvents"
+import cellHover from './composables/cellHover';
+import cellSelect from './composables/cellSelect';
+import connectEdge from './composables/connectEdge';
 
 registerNode(Graph);
 const graph = ref({});
-const curNode = ref({});
+const { ctx } = getCurrentInstance();
 const test = reactive([
   {
     shape: 'edge',
@@ -635,11 +637,16 @@ const init = () => {
     }
   });
   graph.value.fromJSON(test);
-  cellEvents(graph);
+  // cellEvents(graph);
+  cellHover(graph);
+  cellSelect(graph);
+  connectEdge(graph);
 };
 
 const changeNodeName = (name) => {
-  curNode.value.setAttrs({ label: { text: name } });
+  const { curNode } = ctx;
+  console.log(curNode);
+  curNode.setAttrs({ label: { text: name } });
 };
 onMounted(init);
 provide('graph', graph);
