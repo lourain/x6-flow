@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --base=/x6-flow/",
     "serve": "vite preview"
   },
   "dependencies": {
