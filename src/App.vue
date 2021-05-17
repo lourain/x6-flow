@@ -15,10 +15,11 @@ import registerNode from './shape/registerNode';
 import cellHover from './composables/cellHover';
 import cellSelect from './composables/cellSelect';
 import connectEdge from './composables/connectEdge';
+import blankEvent from './composables/blankEvent';
 
 registerNode(Graph);
 const graph = ref({});
-const curCell = ref({})
+const curCell = ref({});
 // console.log(node);
 const test = reactive([
   {
@@ -547,8 +548,8 @@ const test = reactive([
 const init = () => {
   graph.value = new Graph({
     container: document.getElementById('container'),
-    width: 800,
-    height: 600,
+    width: '100%',
+    height: '100%',
     selecting: true, // 点选/框选，默认禁用。
     snapline: true,
     grid: {
@@ -640,8 +641,9 @@ const init = () => {
   graph.value.fromJSON(test);
   // cellEvents(graph);
   cellHover(graph);
-  cellSelect(graph,curCell);
+  cellSelect(graph, curCell);
   connectEdge(graph);
+  blankEvent(graph, curCell);
 };
 
 const changeNodeName = (name) => {
@@ -651,16 +653,20 @@ const changeNodeName = (name) => {
 onMounted(init);
 provide('graph', graph);
 </script>
-<style lang="less">
+<style lang="scss">
 * {
   margin: 0;
   padding: 0;
 }
+// body {
+//   padding: 10px;
+// }
 .layout {
   display: flex;
+  box-sizing: border-box;
   width: 100%;
   height: 100vh;
-
+  padding: 10px;
   .cavs {
     width: 100%;
     height: 100%;

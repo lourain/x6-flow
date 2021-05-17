@@ -22,7 +22,9 @@
       </div>
       <p>分流</p>
     </li>
-    <ElButton @click="exportData">export</ElButton>
+    <li style="margin-top:20px;">
+      <el-button @click="exportData">Export</el-button>
+    </li>
   </ul>
 </template>
 <script setup>
@@ -72,7 +74,7 @@ watch(graph, (val) => {
   initDnd();
 });
 </script>
-<style lang="less">
+<style lang="scss">
 .nodes-bar {
   width: 200px;
   height: 100%;
