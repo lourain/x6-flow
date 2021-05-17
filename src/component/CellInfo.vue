@@ -5,14 +5,13 @@
 </template>
 <script setup>
 import { ref, watch, defineEmit, defineProps, toRefs } from 'vue';
-const nodeName = ref('');
 const props = defineProps({
   curCell: Object
 });
-console.log(props);
+const nodeName = ref('');
 const { curCell } = toRefs(props);
+
 watch(curCell, (cell) => {
-  console.log(cell);
   if (cell.isNode()) {
     nodeName.value = cell.getAttrByPath('label/text');
   }

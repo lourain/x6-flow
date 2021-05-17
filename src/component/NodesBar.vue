@@ -22,7 +22,7 @@
       </div>
       <p>分流</p>
     </li>
-    <button @click="exportData">export</button>
+    <ElButton @click="exportData">export</ElButton>
   </ul>
 </template>
 <script setup>

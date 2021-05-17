@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { provide, ref, reactive, onMounted, getCurrentInstance } from 'vue';
+import { provide, ref, reactive, onMounted } from 'vue';
 import { Graph } from '@antv/x6';
 import NodesBar from './component/NodesBar.vue';
 import CellInfo from './component/CellInfo.vue';
@@ -20,7 +20,6 @@ registerNode(Graph);
 const graph = ref({});
 const curCell = ref({})
 // console.log(node);
-const { ctx } = getCurrentInstance();
 const test = reactive([
   {
     shape: 'edge',
