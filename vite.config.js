@@ -5,8 +5,7 @@ import styleImport from "vite-plugin-style-import"
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
-    outDir: 'docs/x6-flow',
-    // assetsDir: './assets'
+    outDir: 'docs',
   },
   plugins: [
     vue(),
