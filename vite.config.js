@@ -4,6 +4,7 @@ import styleImport from "vite-plugin-style-import"
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/x6-flow/',
   build: {
     outDir: 'docs',
   },
