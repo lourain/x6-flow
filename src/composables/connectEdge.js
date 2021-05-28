@@ -1,4 +1,4 @@
-export default (graph)=> {
+export default (graph) => {
   graph.value.on('edge:connected', (args) => {
     const edge = args.edge;
     const node = args.currentCell;
@@ -17,8 +17,8 @@ export default (graph)=> {
     });
     edge.appendLabel({
       attrs: {
-        text: {
-          text: 'Hello Label'
+        label: {
+          text: ""
         }
       }
     });
